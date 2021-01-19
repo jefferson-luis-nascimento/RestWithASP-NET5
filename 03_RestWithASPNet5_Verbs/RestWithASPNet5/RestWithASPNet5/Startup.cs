@@ -35,6 +35,8 @@ namespace RestWithASPNet5
 
             services.AddDbContext<MySqlContext>(options => options.UseMySql(connection));
 
+            services.AddApiVersioning();
+
             //Injeção de dependência
             services.AddScoped<IPersonService, PersonServiceImplementations>();
         }
