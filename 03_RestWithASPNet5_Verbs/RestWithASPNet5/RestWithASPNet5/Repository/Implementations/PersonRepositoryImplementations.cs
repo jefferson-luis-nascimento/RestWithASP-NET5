@@ -45,7 +45,7 @@ namespace RestWithASPNet5.Repository.Implementations
         {
             var existsPerson = GetPerson(person.Id);
 
-            if (existsPerson == null) return new Person();
+            if (existsPerson == null) return null;
 
             try
             {
