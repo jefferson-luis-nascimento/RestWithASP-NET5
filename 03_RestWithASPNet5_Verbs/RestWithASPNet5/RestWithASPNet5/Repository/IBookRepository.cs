@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace RestWithASPNet5.Repository
 {
-    public interface IPersonRepository
+    public interface IBookRepository
     {
-        Person Create(Person person);
+        Book Create(Book book);
 
-        Person FindById(long id);
+        Book FindById(long id);
 
-        List<Person> FindAll();
+        List<Book> FindAll();
 
-        Person Update(Person person);
+        Book Update(Book book);
 
         void Delete(long Id);
 

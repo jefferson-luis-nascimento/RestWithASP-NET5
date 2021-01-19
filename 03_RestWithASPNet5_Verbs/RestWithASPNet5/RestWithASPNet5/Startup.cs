@@ -50,6 +50,9 @@ namespace RestWithASPNet5
             //Injeção de dependência
             services.AddScoped<IPersonRepository, PersonRepositoryImplementations>();
             services.AddScoped<IPersonBussiness, PersonBussinessImplementations>();
+
+            services.AddScoped<IBookRepository, BookRepositoryImplementations>();
+            services.AddScoped<IBookBussiness, BookBussinessImplementations>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
