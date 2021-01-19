@@ -1,4 +1,5 @@
 ﻿using RestWithASPNet5.Model;
+using RestWithASPNet5.Model.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,57 +10,77 @@ namespace RestWithASPNet5.Services.Implementations
 {
     public class PersonServiceImplementations : IPersonService
     {
-        private int count;
+        private MySqlContext _context;
 
-        public Person Create(Person person)
+        public PersonServiceImplementations(MySqlContext context)
         {
-            return person;
-        }
-
-        public void Delete(long Id)
-        {
-
+            _context = context;
         }
 
         public List<Person> FindAll()
         {
-            var persons = new List<Person>();
-
-            for (int i = 0; i < 8; i++)
-            {
-                persons.Add(new Person
-                {
-                    Id = IncrementAndGet(),
-                    FirstName = "Person FistName" + i,
-                    LastName = "Person LastName" + i,
-                    Address = "Some Adress" + i,
-                    Gender = "Male",
-                });
-            }
-
-            return persons;
+            return _context.Persons.ToList();
         }
-
-        private long IncrementAndGet()
-        {
-            return Interlocked.Increment(ref count);
-        }
-
         public Person FindById(long id)
         {
-            return new Person
+            return GetPerson(id);
+        }
+
+        public Person Create(Person person)
+        {
+            try
             {
-                Id = IncrementAndGet(),
-                FirstName = "Leandro",
-                LastName = "Costa",
-                Address = "Uberlandia - MG - Brasil",
-                Gender = "Male",
-            };
+                _context.Add(person);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return person;
         }
 
         public Person Update(Person person)
         {
+            var existsPerson = GetPerson(person.Id);
+
+            if (existsPerson == null) return new Person();
+
+            try
+            {
+                _context.Entry(existsPerson).CurrentValues.SetValues(person);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
             return person;
+        }
+
+        public void Delete(long id)
+        {
+            var existsPerson = GetPerson(id);
+
+            if (existsPerson == null) return;
+
+            try
+            {
+                _context.Remove(existsPerson);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private Person GetPerson(long id)
+        {
+            return _context.Persons.FirstOrDefault(person => person.Id.Equals(id));
         }
     }
 }
