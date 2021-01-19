@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestWithASPNet5.Model;
-using RestWithASPNet5.Services;
+using RestWithASPNet5.Bussiness;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using RestWithASPNet5.Repository;
 
 namespace RestWithASPNet5.Controllers
 {
@@ -17,24 +18,24 @@ namespace RestWithASPNet5.Controllers
     {
         private readonly ILogger<PersonController> _logger;
 
-        private IPersonService _personService;
+        private IPersonBussiness _personBussiness;
 
-        public PersonController(ILogger<PersonController> logger, IPersonService personService)
+        public PersonController(ILogger<PersonController> logger, IPersonBussiness personBussiness)
         {
             _logger = logger;
-            _personService = personService;
+            _personBussiness = personBussiness;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_personService.FindAll());
+            return Ok(_personBussiness.FindAll());
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
-            var person = _personService.FindById(id);
+            var person = _personBussiness.FindById(id);
 
             if (person == null) return NotFound();
 
@@ -46,7 +47,7 @@ namespace RestWithASPNet5.Controllers
         {
             if (person == null) BadRequest();
 
-            return Ok(_personService.Create(person));
+            return Ok(_personBussiness.Create(person));
         }
 
         [HttpPut]
@@ -54,17 +55,17 @@ namespace RestWithASPNet5.Controllers
         {
             if (person == null) BadRequest();
 
-            return Ok(_personService.Update(person));
+            return Ok(_personBussiness.Update(person));
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            var person = _personService.FindById(id);
+            var person = _personBussiness.FindById(id);
 
             if (person == null) return NotFound();
 
-            _personService.Delete(id);
+            _personBussiness.Delete(id);
 
             return NoContent();
         }

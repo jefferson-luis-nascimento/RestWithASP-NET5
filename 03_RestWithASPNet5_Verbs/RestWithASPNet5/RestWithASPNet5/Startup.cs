@@ -8,12 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RestWithASPNet5.Model.Context;
-using RestWithASPNet5.Services;
-using RestWithASPNet5.Services.Implementations;
+using RestWithASPNet5.Bussiness;
+using RestWithASPNet5.Bussiness.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RestWithASPNet5.Repository;
+using RestWithASPNet5.Repository.Implementations;
 
 namespace RestWithASPNet5
 {
@@ -38,7 +40,8 @@ namespace RestWithASPNet5
             services.AddApiVersioning();
 
             //Injeção de dependência
-            services.AddScoped<IPersonService, PersonServiceImplementations>();
+            services.AddScoped<IPersonRepository, PersonRepositoryImplementations>();
+            services.AddScoped<IPersonBussiness, PersonBussinessImplementations>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

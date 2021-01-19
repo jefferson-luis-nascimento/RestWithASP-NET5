@@ -1,9 +1,9 @@
 ﻿using RestWithASPNet5.Model;
 using System.Collections.Generic;
 
-namespace RestWithASPNet5.Services
+namespace RestWithASPNet5.Bussiness
 {
-    public interface IPersonService
+    public interface IPersonBussiness
     {
         Person Create(Person person);
         Person FindById(long id);

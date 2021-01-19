@@ -6,13 +6,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RestWithASPNet5.Services.Implementations
+namespace RestWithASPNet5.Repository.Implementations
 {
-    public class PersonServiceImplementations : IPersonService
+    public class PersonRepositoryImplementations : IPersonRepository
     {
         private MySqlContext _context;
 
-        public PersonServiceImplementations(MySqlContext context)
+        public PersonRepositoryImplementations(MySqlContext context)
         {
             _context = context;
         }
@@ -81,6 +81,11 @@ namespace RestWithASPNet5.Services.Implementations
         private Person GetPerson(long id)
         {
             return _context.Persons.FirstOrDefault(person => person.Id.Equals(id));
+        }
+
+        public bool Exists(long id)
+        {
+            return _context.Persons.Any(person => person.Id.Equals(id));
         }
     }
 }
